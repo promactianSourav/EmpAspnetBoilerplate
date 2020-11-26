@@ -4,11 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using Abp.Domain.Entities;
+using Abp.Domain.Entities.Auditing;
 using EmpAspnetBoilerplate.Departments;
 
 namespace EmpAspnetBoilerplate.Employees
 {
-    public class Employee : Entity<int>
+    public class Employee : FullAuditedEntity
     {
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -17,9 +18,10 @@ namespace EmpAspnetBoilerplate.Employees
         [Required(ErrorMessage = "Please fill the contact number.")]
         [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Not a valid Phone number")]
         public string ContactNumber { get; set; }
-        
+
+        [ForeignKey("Department")]
         public int? DepartmentId { get; set; }
-        [ForeignKey("DepartmentId")]
+        
         public virtual Department Department { get; set; }
     }
 }

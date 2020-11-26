@@ -17,6 +17,8 @@
     <Compile Remove="Migrations\20201125174145_departmentIdToDeptId.Designer.cs" />
     <Compile Remove="Migrations\20201125174510_RemovingConstraintDepartmentId.cs" />
     <Compile Remove="Migrations\20201125174510_RemovingConstraintDepartmentId.Designer.cs" />
+    <Compile Remove="Migrations\20201126065003_checkDepartmentNullerrorSecond.cs" />
+    <Compile Remove="Migrations\20201126065003_checkDepartmentNullerrorSecond.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
