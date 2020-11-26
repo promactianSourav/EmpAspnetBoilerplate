@@ -1,3 +1,4 @@
+import { DepartmentsComponent } from './departments/departments.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -38,6 +39,8 @@ import { SidebarComponent } from './layout/sidebar.component';
 import { SidebarLogoComponent } from './layout/sidebar-logo.component';
 import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component';
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
+import { CreateDepartmentComponent } from './departments/create-department/create-department.component';
+import { EditDepartmentComponent } from './departments/edit-department/edit-department.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,8 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
     RolesComponent,
     CreateRoleDialogComponent,
     EditRoleDialogComponent,
+    //departments
+    DepartmentsComponent,
     // users
     UsersComponent,
     CreateUserDialogComponent,
@@ -67,7 +72,10 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
     SidebarComponent,
     SidebarLogoComponent,
     SidebarUserPanelComponent,
-    SidebarMenuComponent
+    SidebarMenuComponent,
+    DepartmentsComponent,
+    CreateDepartmentComponent,
+    EditDepartmentComponent
   ],
   imports: [
     CommonModule,
@@ -92,6 +100,8 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
     // roles
     CreateRoleDialogComponent,
     EditRoleDialogComponent,
+    //departments
+    
     // users
     CreateUserDialogComponent,
     EditUserDialogComponent,
