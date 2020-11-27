@@ -1,3 +1,4 @@
+
 import { DepartmentsComponent } from './departments/departments.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -41,9 +42,10 @@ import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { CreateDepartmentComponent } from './departments/create-department/create-department.component';
 import { EditDepartmentComponent } from './departments/edit-department/edit-department.component';
-import { EmployeesComponent } from './employees/employees.component';
+
 import { CreateEmployeeComponent } from './employees/create-employee/create-employee.component';
 import { EditEmployeeComponent } from './employees/edit-employee/edit-employee.component';
+import { EmployeesComponent } from './employees/employees.component';
 
 @NgModule({
   declarations: [
