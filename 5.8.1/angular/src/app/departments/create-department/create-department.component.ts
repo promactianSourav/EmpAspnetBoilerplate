@@ -1,9 +1,12 @@
-import { DepartmentsServiceProxy, GetDepartmentOutput } from './../../../shared/service-proxies/service-proxies';
+import { DepartmentsServiceProxy, DepartmentDto, PermissionDto, PermissionDepartmentDto } from './../../../shared/service-proxies/service-proxies';
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { AbpValidationError } from '@shared/components/validation/abp-validation.api';
 import { CreateDepartmentInput, UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+
+import { forEach as _forEach, map as _map } from 'lodash-es';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-department',
@@ -14,91 +17,76 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 export class CreateDepartmentComponent extends AppComponentBase
 implements OnInit {
 saving = false;
-Department = new CreateDepartmentInput();
-departments: GetDepartmentOutput[] = [];
-// roles: RoleDto[] = [];
-checkedRolesMap: { [key: string]: boolean } = {};
-defaultRoleCheckedStatus = false;
-passwordValidationErrors: Partial<AbpValidationError>[] = [
-  {
-    name: 'pattern',
-    localizationKey:
-      'PasswordsMustBeAtLeast8CharactersContainLowercaseUppercaseNumber',
-  },
-];
-confirmPasswordValidationErrors: Partial<AbpValidationError>[] = [
-  {
-    name: 'validateEqual',
-    localizationKey: 'PasswordsDoNotMatch',
-  },
-];
+department = new DepartmentDto();
+permissions: PermissionDepartmentDto[] = [];
+checkedPermissionsMap: { [key: string]: boolean } = {};
+defaultPermissionCheckedStatus = true;
 
 @Output() onSave = new EventEmitter<any>();
 
 constructor(
   injector: Injector,
-  public _departmentService: DepartmentsServiceProxy,
+  private _departmentService: DepartmentsServiceProxy,
   public bsModalRef: BsModalRef
 ) {
   super(injector);
 }
 
 ngOnInit(): void {
-  // this.Department.isActive = true;
-
-  this._departmentService.listAll().subscribe((result) =>{
-    this.departments = result;
-  })
-  // this._userService.getRoles().subscribe((result) => {
-  //   this.roles = result.items;
-  //   this.setInitialRolesStatus();
-  // });
+  this._departmentService
+    .getAllPermissions()
+    .subscribe((result) => {
+      this.permissions = result.items;
+      this.setInitialPermissionsStatus();
+    });
 }
 
-// setInitialRolesStatus(): void {
-//   _map(this.roles, (item) => {
-//     this.checkedRolesMap[item.normalizedName] = this.isRoleChecked(
-//       item.normalizedName
-//     );
-//   });
-// }
+setInitialPermissionsStatus(): void {
+  _map(this.permissions, (item) => {
+    this.checkedPermissionsMap[item.departmentName] = this.isPermissionChecked(
+      item.departmentName
+    );
+  });
+}
 
-// isRoleChecked(normalizedName: string): boolean {
-//   // just return default role checked status
-//   // it's better to use a setting
-//   return this.defaultRoleCheckedStatus;
-// }
+isPermissionChecked(permissionName: string): boolean {
+  // just return default permission checked status
+  // it's better to use a setting
+  return this.defaultPermissionCheckedStatus;
+}
 
-// onRoleChange(role: RoleDto, $event) {
-//   this.checkedRolesMap[role.normalizedName] = $event.target.checked;
-// }
+onPermissionChange(permission: PermissionDto, $event) {
+  this.checkedPermissionsMap[permission.name] = $event.target.checked;
+}
 
-// getCheckedRoles(): string[] {
-//   const roles: string[] = [];
-//   _forEach(this.checkedRolesMap, function (value, key) {
-//     if (value) {
-//       roles.push(key);
-//     }
-//   });
-//   return roles;
-// }
+getCheckedPermissions(): string[] {
+  const permissions: string[] = [];
+  _forEach(this.checkedPermissionsMap, function (value, key) {
+    if (value) {
+      permissions.push(key);
+    }
+  });
+  return permissions;
+}
 
-// save(): void {
-//   this.saving = true;
+save(): void {
+  this.saving = true;
 
-//   this.user.roleNames = this.getCheckedRoles();
+  const department = new CreateDepartmentInput();
+  department.init(this.department);
+  // role.grantedPermissions = this.getCheckedPermissions();
 
-//   this._userService
-//     .create(this.user)
-//     .pipe(
-//       finalize(() => {
-//         this.saving = false;
-//       })
-//     )
-//     .subscribe(() => {
-//       this.notify.info(this.l('SavedSuccessfully'));
-//       this.bsModalRef.hide();
-//       this.onSave.emit();
-//     });
-// }
+  this._departmentService
+    .create(department)
+    .pipe(
+      finalize(() => {
+        this.saving = false;
+      })
+    )
+    .subscribe(() => {
+      this.notify.info(this.l('SavedSuccessfully'));
+      this.bsModalRef.hide();
+      this.onSave.emit();
+    });
+}
 }

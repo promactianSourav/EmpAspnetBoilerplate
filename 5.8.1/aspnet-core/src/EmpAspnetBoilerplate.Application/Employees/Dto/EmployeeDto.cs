@@ -6,7 +6,7 @@ using Abp.AutoMapper;
 
 namespace EmpAspnetBoilerplate.Employees.Dto
 {
-    [AutoMapFrom(typeof(Employee))]
+    [AutoMapFrom(typeof(Employee))][AutoMapTo(typeof(Employee))]
     public class EmployeeDto : EntityDto<int>
     {
         public string Name { get; set; }

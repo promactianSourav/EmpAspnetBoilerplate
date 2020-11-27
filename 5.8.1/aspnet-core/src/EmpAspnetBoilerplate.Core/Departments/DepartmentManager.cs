@@ -44,14 +44,17 @@ namespace EmpAspnetBoilerplate.Departments
             return repositoryDepartment.GetAllList();
         }
 
-        public Department GetDepartmentByID(int id)
+        public async Task<Department> GetDepartmentByID(int id)
         {
-            return repositoryDepartment.Get(id);
+            return await repositoryDepartment.GetAsync(id);
+           
         }
 
         public void UpdateDepartment(Department entity)
         {
             repositoryDepartment.Update(entity);
         }
+
+        
     }
 }

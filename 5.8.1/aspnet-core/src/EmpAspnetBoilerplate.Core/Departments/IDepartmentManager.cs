@@ -9,7 +9,7 @@ namespace EmpAspnetBoilerplate.Departments
     public interface IDepartmentManager : IDomainService
     {
         IEnumerable<Department> GetAllList();
-        Department GetDepartmentByID(int id);
+        Task<Department> GetDepartmentByID(int id);
         Task<Department> CreateDepartment(Department entity);
         void UpdateDepartment(Department entity);
         void DeleteDepartment(int id);

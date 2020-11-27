@@ -68,7 +68,7 @@ export class RolesComponent extends PagedListingComponentBase<RoleDto> {
                 this.refresh();
               })
             )
-            .subscribe(() => {});
+            .subscribe(() => { });
         }
       }
     );

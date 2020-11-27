@@ -3,6 +3,7 @@
   <texts>
     <text name="HomePage" value="Home page" />
     <text name="Departments" value="Departments" />
+    <text name="Employees" value="Employees" />
     <text name="About" value="About" />
     <text name="WelcomeMessage" value="Welcome to EmpAspnetBoilerplate!" />
     <text name="FormIsNotValidMessage" value="Form is not valid. Please check and fix errors." />

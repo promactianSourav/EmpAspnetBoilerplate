@@ -41,6 +41,9 @@ import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { CreateDepartmentComponent } from './departments/create-department/create-department.component';
 import { EditDepartmentComponent } from './departments/edit-department/edit-department.component';
+import { EmployeesComponent } from './employees/employees.component';
+import { CreateEmployeeComponent } from './employees/create-employee/create-employee.component';
+import { EditEmployeeComponent } from './employees/edit-employee/edit-employee.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +60,12 @@ import { EditDepartmentComponent } from './departments/edit-department/edit-depa
     EditRoleDialogComponent,
     //departments
     DepartmentsComponent,
+    CreateDepartmentComponent,
+    EditDepartmentComponent,
+    //employees
+    EmployeesComponent,
+    CreateEmployeeComponent,
+    EditEmployeeComponent,
     // users
     UsersComponent,
     CreateUserDialogComponent,
@@ -73,9 +82,9 @@ import { EditDepartmentComponent } from './departments/edit-department/edit-depa
     SidebarLogoComponent,
     SidebarUserPanelComponent,
     SidebarMenuComponent,
-    DepartmentsComponent,
-    CreateDepartmentComponent,
-    EditDepartmentComponent
+    EmployeesComponent,
+    CreateEmployeeComponent,
+    EditEmployeeComponent
   ],
   imports: [
     CommonModule,
@@ -101,6 +110,11 @@ import { EditDepartmentComponent } from './departments/edit-department/edit-depa
     CreateRoleDialogComponent,
     EditRoleDialogComponent,
     //departments
+    CreateDepartmentComponent,
+    EditDepartmentComponent,
+    //employees
+    CreateEmployeeComponent,
+    EditEmployeeComponent,
     
     // users
     CreateUserDialogComponent,
