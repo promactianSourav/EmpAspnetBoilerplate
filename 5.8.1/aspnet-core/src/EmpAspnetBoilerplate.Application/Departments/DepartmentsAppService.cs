@@ -57,12 +57,12 @@ namespace EmpAspnetBoilerplate.Departments
         //    return output;
         //}
 
-        //public IEnumerable<GetDepartmentOutput> ListAll()
-        //{
-        //    var getAll = departmentManager.GetAllList().ToList();
-        //    List<GetDepartmentOutput> output = mapper.Map<List<Department>, List<GetDepartmentOutput>>(getAll);
-        //    return output;
-        //}
+        public IEnumerable<GetDepartmentOutput> ListAll()
+        {
+            var getAll = departmentManager.GetAllList().ToList();
+            List<GetDepartmentOutput> output = mapper.Map<List<Department>, List<GetDepartmentOutput>>(getAll);
+            return output;
+        }
 
         //public void Update(UpdateDepartmentInput input)
         //{

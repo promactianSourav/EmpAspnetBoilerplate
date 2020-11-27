@@ -1,25 +1,28 @@
+import { DepartmentsServiceProxy } from './../../shared/service-proxies/service-proxies';
 import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
 import { Component, Injector, OnInit } from '@angular/core';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
-import { EmployeeDto, EmployeeDtoPagedResultDto, EmployeesServiceProxy } from '@shared/service-proxies/service-proxies';
+import { DepartmentDto, EmployeeDto, EmployeeDtoPagedResultDto, EmployeesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { CreateEmployeeComponent } from './create-employee/create-employee.component';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { result } from 'lodash-es';
 class PagedEmployeesRequestDto extends PagedRequestDto {
   keyword: string;
 }
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
+  animations: [appModuleAnimation()],
   styles: [
   ]
 })
 export class EmployeesComponent extends PagedListingComponentBase<EmployeeDto>{
   
-  // protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-  //   throw new Error('Method not implemented.');
-  // }
+  
   employees: EmployeeDto[] = [];
+  departmentlist: DepartmentDto[] = [];
   keyword = '';
   isActive: boolean | null=true;
   advancedFiltersVisible = true;
@@ -27,6 +30,7 @@ export class EmployeesComponent extends PagedListingComponentBase<EmployeeDto>{
   constructor(
     injector: Injector,
     private _employeeService: EmployeesServiceProxy,
+    private _departmentService: DepartmentsServiceProxy,
     private _modalService: BsModalService
   ) {
     super(injector);
@@ -45,6 +49,9 @@ export class EmployeesComponent extends PagedListingComponentBase<EmployeeDto>{
   ): void {
     request.keyword = this.keyword;
 
+    this._departmentService.listAll().subscribe((result)=>{
+      this.departmentlist = result;
+    })
     this._employeeService
       .getAll(request.keyword, request.skipCount, request.maxResultCount)
       .pipe(

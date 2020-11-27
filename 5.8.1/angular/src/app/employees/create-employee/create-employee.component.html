@@ -58,7 +58,16 @@
             {{ "Department" | localize }}
           </label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" name="department" id="department" required minlength="2" maxlength="32" [(ngModel)]="employee.departmentId" #departmentModel="ngModel" #departmentEl />
+                        <!-- <input type="text" class="form-control" name="department" id="department" required minlength="2" maxlength="32" [(ngModel)]="employee.departmentId" #departmentModel="ngModel" #departmentEl /> -->
+                        <select type="Number" name="department" id="department" class="form-control form-control-sm" [(ngModel)]="employee.departmentId" required #departmentModel="ngModel" #departmentEl>
+                                <option *ngFor='let dep of departmentlist' [value]="dep.id">
+                                    
+                                        {{dep.departmentName}}
+                                    
+                                   
+                                </option>
+                            
+                        </select>
                         <abp-validation-summary [control]="departmentModel" [controlEl]="departmentEl"></abp-validation-summary>
                     </div>
                 </div>

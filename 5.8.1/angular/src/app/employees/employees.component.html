@@ -55,7 +55,13 @@
                                 <td>{{emp.address}}</td>
                                 <td>{{emp.qualification}}</td>
                                 <td>{{emp.contactNumber}}</td>
-                                <td>{{emp.departmentId}}</td>
+                                <td>
+                                    <div *ngFor='let depart of departmentlist'>
+                                        <div *ngIf='emp.departmentId === depart.id'>
+                                            {{depart.departmentName}}
+                                        </div>
+                                    </div>
+                                </td>
 
                                 <td>
                                     <button type="button" class="btn btn-sm bg-secondary" (click)="editEmployee(emp)">

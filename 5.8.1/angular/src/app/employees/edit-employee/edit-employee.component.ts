@@ -1,6 +1,7 @@
+import { DepartmentsServiceProxy } from './../../../shared/service-proxies/service-proxies';
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
-import { EmployeeDto, EmployeesServiceProxy, PermissionEmployeeDto } from '@shared/service-proxies/service-proxies';
+import { DepartmentDto, EmployeeDto, EmployeesServiceProxy, PermissionEmployeeDto } from '@shared/service-proxies/service-proxies';
 
 import { forEach as _forEach, includes as _includes, map as _map } from 'lodash-es';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -17,6 +18,8 @@ implements OnInit {
 saving = false;
 id: number;
 employee = new EmployeeDto();
+departmentlist: DepartmentDto[] = [];
+editeddepartment:string = "";
 permissions: PermissionEmployeeDto[];
 grantedPermissionNames: string[];
 checkedPermissionsMap: { [key: string]: boolean } = {};
@@ -26,6 +29,7 @@ checkedPermissionsMap: { [key: string]: boolean } = {};
 constructor(
   injector: Injector,
   private _employeeService: EmployeesServiceProxy,
+  private _departmentService: DepartmentsServiceProxy,
   public bsModalRef: BsModalRef
 ) {
   super(injector);
@@ -40,6 +44,14 @@ ngOnInit(): void {
       // this.grantedPermissionNames = result.grantedPermissionNames;
       // this.setInitialPermissionsStatus();
     });
+    this._departmentService.listAll().subscribe((result)=>{
+      this.departmentlist = result;
+      result.forEach(element => {
+        if(element.id==this.employee.departmentId){
+          this.editeddepartment = element.departmentName;
+        }
+      });
+    })
 }
 
 setInitialPermissionsStatus(): void {
