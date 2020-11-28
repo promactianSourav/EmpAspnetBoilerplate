@@ -1,11 +1,13 @@
 import { EditDepartmentComponent } from './edit-department/edit-department.component';
-import {  DepartmentsServiceProxy, DepartmentDto, DepartmentDtoPagedResultDto } from './../../shared/service-proxies/service-proxies';
+import {  DepartmentsServiceProxy, DepartmentDto, DepartmentDtoPagedResultDto, UserServiceProxy } from './../../shared/service-proxies/service-proxies';
 import { Component, Injector, OnInit } from '@angular/core';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CreateDepartmentComponent } from './create-department/create-department.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { finalize } from 'rxjs/operators';
+import { AbpSessionService } from 'abp-ng2-module';
+import { result } from 'lodash-es';
 
 class PagedDepartmentsRequestDto extends PagedRequestDto {
   keyword: string;
@@ -24,6 +26,10 @@ export class DepartmentsComponent
   //   throw new Error('Method not implemented.');
   // }
   departments: DepartmentDto[] = [];
+  rolesAllowedList:string[] = [];
+  allowedAdmin:boolean = false;
+  allowedHr:boolean = false;
+  allowedEmployee:boolean = false;
   keyword = '';
   isActive: boolean | null=true;
   advancedFiltersVisible = true;
@@ -31,6 +37,8 @@ export class DepartmentsComponent
   constructor(
     injector: Injector,
     private _departmentService: DepartmentsServiceProxy,
+    private _userService: UserServiceProxy,
+    private _abpSessionService: AbpSessionService,
     private _modalService: BsModalService
   ) {
     super(injector);
@@ -49,6 +57,22 @@ export class DepartmentsComponent
   ): void {
     request.keyword = this.keyword;
 
+    this._userService.get(this._abpSessionService.userId).subscribe((result)=>{
+      this.rolesAllowedList = result.roleNames;
+      result.roleNames.forEach(element => {
+        if(element.toLocaleLowerCase() == "admin"){
+          this.allowedAdmin = true;
+        }
+        if(element.toLocaleLowerCase() == "hr"){
+          this.allowedHr = true;
+        }
+        if(element.toLocaleLowerCase() == "employee"){
+          this.allowedEmployee = true;
+        }
+      });
+    })
+
+
     this._departmentService
       .getAll(request.keyword, request.skipCount, request.maxResultCount)
       .pipe(
@@ -63,31 +87,47 @@ export class DepartmentsComponent
   }
 
   delete(department: DepartmentDto): void {
-    abp.message.confirm(
-      this.l('RoleDeleteWarningMessage', department.departmentName),
-      undefined,
-      (result: boolean) => {
-        if (result) {
-          this._departmentService
-            .delete(department.id)
-            .pipe(
-              finalize(() => {
-                abp.notify.success(this.l('SuccessfullyDeleted'));
-                this.refresh();
-              })
-            )
-            .subscribe(() => { });
+
+    if(this.allowedAdmin){
+      abp.message.confirm(
+        this.l('RoleDeleteWarningMessage', department.departmentName),
+        undefined,
+        (result: boolean) => {
+          if (result) {
+            this._departmentService
+              .delete(department.id)
+              .pipe(
+                finalize(() => {
+                  abp.notify.success(this.l('SuccessfullyDeleted'));
+                  this.refresh();
+                })
+              )
+              .subscribe(() => { });
+          }
         }
-      }
-    );
+      );
+    }else{
+      abp.message.info("Sorry! You are not allowed.")
+    }
+    
   }
 
   createDepartment(): void {
-    this.showCreateOrEditDepartmentDialog();
+    if(this.allowedAdmin){
+      this.showCreateOrEditDepartmentDialog();
+    }else{
+      abp.message.info("Sorry! You are not allowed.")
+    }
+    
   }
 
   editDepartment(department: DepartmentDto): void {
-    this.showCreateOrEditDepartmentDialog(department.id);
+    if(this.allowedAdmin){
+      this.showCreateOrEditDepartmentDialog(department.id);
+    }else{
+      abp.message.info("Sorry! You are not allowed.")
+    }
+  
   }
   
   showCreateOrEditDepartmentDialog(id?: number): void {

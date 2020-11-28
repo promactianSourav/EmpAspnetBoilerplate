@@ -13,7 +13,8 @@
             </div>
         </div>
     </section>
-    <section class="content px-2">
+    <section class="content px-2" *ngIf="allowedEmployee">Sorry ! You are not allowed.</section>
+    <section class="content px-2" *ngIf="allowedAdmin || allowedHr">
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">

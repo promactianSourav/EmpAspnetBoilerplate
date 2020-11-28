@@ -93,7 +93,8 @@
                                 <th style="width: 310px;">{{ "Actions" | localize }}</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody *ngIf="allowedAdmin || allowedHr">
+
                             <tr *ngFor="
                   let user of users
                     | paginate
@@ -139,6 +140,56 @@
                                 </td>
                             </tr>
                         </tbody>
+
+
+
+
+                        <tbody *ngIf="allowedEmployee">
+                            <tr *ngFor="
+                  let user of users
+                    | paginate
+                      : {
+                          id: 'server',
+                          itemsPerPage: pageSize,
+                          currentPage: pageNumber,
+                          totalItems: totalItems
+                        }
+                ">
+                                <td *ngIf="departmentIdAllowed === user.departmentId">{{ user.userName }}</td>
+                                <td *ngIf="departmentIdAllowed === user.departmentId">{{ user.fullName }}</td>
+                                <td *ngIf="departmentIdAllowed === user.departmentId">{{ user.emailAddress }}</td>
+                                <td *ngIf="departmentIdAllowed === user.departmentId">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" disabled [checked]="user.isActive" />
+                                        <label class="custom-control-label"></label>
+                                    </div>
+                                </td>
+                                <td *ngIf="departmentIdAllowed === user.departmentId">{{user.address}}</td>
+                                <td *ngIf="departmentIdAllowed === user.departmentId">{{user.qualification}}</td>
+                                <td *ngIf="departmentIdAllowed === user.departmentId">{{user.contactNumber}}</td>
+                                <td *ngIf="departmentIdAllowed === user.departmentId">
+                                    <div *ngFor='let depart of departmentlist'>
+                                        <div *ngIf='user.departmentId === depart.id'>
+                                            {{depart.departmentName}}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td *ngIf="departmentIdAllowed === user.departmentId">
+                                    <button type="button" class="btn btn-sm bg-secondary" (click)="editUser(user)">
+                    <i class="fas fa-pencil-alt"></i>
+                    {{ "Edit" | localize }}
+                  </button>
+                                    <button type="button" class="btn btn-sm bg-danger mx-2" (click)="delete(user)">
+                    <i class="fas fa-trash"></i>
+                    {{ "Delete" | localize }}
+                  </button>
+                                    <button type="button" class="btn btn-sm bg-secondary" (click)="resetPassword(user)">
+                    <i class="fas fa-lock"></i>
+                    {{ "ResetPassword" | localize }}
+                  </button>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
                 <div class="card-footer bg-light border-top">
@@ -149,9 +200,9 @@
               </button>
                         </div>
                         <div class="col-sm-4 col-12 text-center">
-                            <p class="mb-0 my-2">
+                            <!-- <p class="mb-0 my-2">
                                 {{ "TotalRecordsCount" | localize: totalItems }}
-                            </p>
+                            </p> -->
                         </div>
                         <div class="col-sm-4 col-12">
                             <div class="float-sm-right m-auto">
