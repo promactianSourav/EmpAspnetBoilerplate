@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Authorization.Users;
 using Abp.Extensions;
+using EmpAspnetBoilerplate.Departments;
 
 namespace EmpAspnetBoilerplate.Authorization.Users
 {
@@ -30,5 +33,16 @@ namespace EmpAspnetBoilerplate.Authorization.Users
 
             return user;
         }
+
+        public string Address { get; set; }
+        public string Qualification { get; set; }
+
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Not a valid Phone number")]
+        public string ContactNumber { get; set; }
+
+        [ForeignKey("Department")]
+        public int? DepartmentId { get; set; }
+
+        public virtual Department Department { get; set; }
     }
 }

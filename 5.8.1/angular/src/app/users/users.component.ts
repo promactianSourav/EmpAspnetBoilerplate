@@ -9,7 +9,9 @@ import {
 import {
   UserServiceProxy,
   UserDto,
-  UserDtoPagedResultDto
+  UserDtoPagedResultDto,
+  DepartmentsServiceProxy,
+  DepartmentDto
 } from '@shared/service-proxies/service-proxies';
 import { CreateUserDialogComponent } from './create-user/create-user-dialog.component';
 import { EditUserDialogComponent } from './edit-user/edit-user-dialog.component';
@@ -26,6 +28,7 @@ class PagedUsersRequestDto extends PagedRequestDto {
 })
 export class UsersComponent extends PagedListingComponentBase<UserDto> {
   users: UserDto[] = [];
+  departmentlist: DepartmentDto[] = [];
   keyword = '';
   isActive: boolean | null;
   advancedFiltersVisible = false;
@@ -33,6 +36,7 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
   constructor(
     injector: Injector,
     private _userService: UserServiceProxy,
+    private _departmentService: DepartmentsServiceProxy,
     private _modalService: BsModalService
   ) {
     super(injector);
@@ -63,6 +67,9 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
   ): void {
     request.keyword = this.keyword;
     request.isActive = this.isActive;
+    this._departmentService.listAll().subscribe((result)=>{
+      this.departmentlist = result;
+    })
 
     this._userService
       .getAll(

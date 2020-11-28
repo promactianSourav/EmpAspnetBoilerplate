@@ -12,7 +12,9 @@ import { AppComponentBase } from '@shared/app-component-base';
 import {
   UserServiceProxy,
   UserDto,
-  RoleDto
+  RoleDto,
+  DepartmentDto,
+  DepartmentsServiceProxy
 } from '@shared/service-proxies/service-proxies';
 
 @Component({
@@ -22,6 +24,8 @@ export class EditUserDialogComponent extends AppComponentBase
   implements OnInit {
   saving = false;
   user = new UserDto();
+  departmentlist: DepartmentDto[] = [];
+  editeddepartment:string = "";
   roles: RoleDto[] = [];
   checkedRolesMap: { [key: string]: boolean } = {};
   id: number;
@@ -31,6 +35,7 @@ export class EditUserDialogComponent extends AppComponentBase
   constructor(
     injector: Injector,
     public _userService: UserServiceProxy,
+    private _departmentService: DepartmentsServiceProxy,
     public bsModalRef: BsModalRef
   ) {
     super(injector);
@@ -45,6 +50,14 @@ export class EditUserDialogComponent extends AppComponentBase
         this.setInitialRolesStatus();
       });
     });
+    this._departmentService.listAll().subscribe((result)=>{
+      this.departmentlist = result;
+      result.forEach(element => {
+        if(element.id==this.user.departmentId){
+          this.editeddepartment = element.departmentName;
+        }
+      });
+    })
   }
 
   setInitialRolesStatus(): void {

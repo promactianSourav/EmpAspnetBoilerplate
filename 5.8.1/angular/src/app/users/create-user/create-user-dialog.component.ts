@@ -12,7 +12,9 @@ import { AppComponentBase } from '@shared/app-component-base';
 import {
   UserServiceProxy,
   CreateUserDto,
-  RoleDto
+  RoleDto,
+  DepartmentDto,
+  DepartmentsServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { AbpValidationError } from '@shared/components/validation/abp-validation.api';
 
@@ -24,6 +26,7 @@ export class CreateUserDialogComponent extends AppComponentBase
   saving = false;
   user = new CreateUserDto();
   roles: RoleDto[] = [];
+  departmentlist: DepartmentDto[] = [];
   checkedRolesMap: { [key: string]: boolean } = {};
   defaultRoleCheckedStatus = false;
   passwordValidationErrors: Partial<AbpValidationError>[] = [
@@ -45,6 +48,7 @@ export class CreateUserDialogComponent extends AppComponentBase
   constructor(
     injector: Injector,
     public _userService: UserServiceProxy,
+    private _departmentService: DepartmentsServiceProxy,
     public bsModalRef: BsModalRef
   ) {
     super(injector);
@@ -53,6 +57,9 @@ export class CreateUserDialogComponent extends AppComponentBase
   ngOnInit(): void {
     this.user.isActive = true;
 
+    this._departmentService.listAll().subscribe((result) =>{
+      this.departmentlist = result;
+    })
     this._userService.getRoles().subscribe((result) => {
       this.roles = result.items;
       this.setInitialRolesStatus();

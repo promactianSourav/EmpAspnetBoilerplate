@@ -141,7 +141,11 @@ namespace EmpAspnetBoilerplate.Controllers
                 externalUser.EmailAddress,
                 externalUser.EmailAddress,
                 Authorization.Users.User.CreateRandomPassword(),
-                true
+                true,
+                externalUser.Address,
+                externalUser.Qualification,
+                externalUser.ContactNumber,
+                externalUser.DepartmentId
             );
 
             user.Logins = new List<UserLogin>

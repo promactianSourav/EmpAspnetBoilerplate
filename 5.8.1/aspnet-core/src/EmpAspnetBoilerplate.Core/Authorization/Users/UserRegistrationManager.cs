@@ -37,7 +37,7 @@ namespace EmpAspnetBoilerplate.Authorization.Users
             AbpSession = NullAbpSession.Instance;
         }
 
-        public async Task<User> RegisterAsync(string name, string surname, string emailAddress, string userName, string plainPassword, bool isEmailConfirmed)
+        public async Task<User> RegisterAsync(string name, string surname, string emailAddress, string userName, string plainPassword, bool isEmailConfirmed,string address, string qualification, string contactNumber, int departmentId)
         {
             CheckForTenant();
 
@@ -52,6 +52,10 @@ namespace EmpAspnetBoilerplate.Authorization.Users
                 IsActive = true,
                 UserName = userName,
                 IsEmailConfirmed = isEmailConfirmed,
+                Address = address,
+                Qualification = qualification,
+                ContactNumber = contactNumber,
+                DepartmentId = departmentId,
                 Roles = new List<UserRole>()
             };
 

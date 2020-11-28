@@ -33,6 +33,14 @@ namespace EmpAspnetBoilerplate.Authorization.Accounts.Dto
 
         [DisableAuditing]
         public string CaptchaResponse { get; set; }
+        public string Address { get; set; }
+        public string Qualification { get; set; }
+        [Required(ErrorMessage = "Please fill the contact number.")]
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Not a valid Phone number")]
+        public string ContactNumber { get; set; }
+
+        [Required]
+        public int DepartmentId { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

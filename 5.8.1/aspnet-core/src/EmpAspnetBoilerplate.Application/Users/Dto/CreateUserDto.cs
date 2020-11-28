@@ -43,5 +43,14 @@ namespace EmpAspnetBoilerplate.Users.Dto
                 RoleNames = new string[0];
             }
         }
+        public string Address { get; set; }
+        public string Qualification { get; set; }
+        [Required(ErrorMessage = "Please fill the contact number.")]
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Not a valid Phone number")]
+        public string ContactNumber { get; set; }
+
+        [Required]
+        public int DepartmentId { get; set; }
+
     }
 }

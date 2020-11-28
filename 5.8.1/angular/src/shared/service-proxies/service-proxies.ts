@@ -2568,6 +2568,10 @@ export class RegisterInput implements IRegisterInput {
     emailAddress: string;
     password: string;
     captchaResponse: string | undefined;
+    address: string | undefined;
+    qualification: string | undefined;
+    contactNumber: string;
+    departmentId: number;
 
     constructor(data?: IRegisterInput) {
         if (data) {
@@ -2586,6 +2590,10 @@ export class RegisterInput implements IRegisterInput {
             this.emailAddress = _data["emailAddress"];
             this.password = _data["password"];
             this.captchaResponse = _data["captchaResponse"];
+            this.address = _data["address"];
+            this.qualification = _data["qualification"];
+            this.contactNumber = _data["contactNumber"];
+            this.departmentId = _data["departmentId"];
         }
     }
 
@@ -2604,6 +2612,10 @@ export class RegisterInput implements IRegisterInput {
         data["emailAddress"] = this.emailAddress;
         data["password"] = this.password;
         data["captchaResponse"] = this.captchaResponse;
+        data["address"] = this.address;
+        data["qualification"] = this.qualification;
+        data["contactNumber"] = this.contactNumber;
+        data["departmentId"] = this.departmentId;
         return data; 
     }
 
@@ -2622,6 +2634,10 @@ export interface IRegisterInput {
     emailAddress: string;
     password: string;
     captchaResponse: string | undefined;
+    address: string | undefined;
+    qualification: string | undefined;
+    contactNumber: string;
+    departmentId: number;
 }
 
 export class RegisterOutput implements IRegisterOutput {
@@ -4541,6 +4557,10 @@ export class CreateUserDto implements ICreateUserDto {
     isActive: boolean;
     roleNames: string[] | undefined;
     password: string;
+    address: string | undefined;
+    qualification: string | undefined;
+    contactNumber: string;
+    departmentId: number;
 
     constructor(data?: ICreateUserDto) {
         if (data) {
@@ -4564,6 +4584,10 @@ export class CreateUserDto implements ICreateUserDto {
                     this.roleNames.push(item);
             }
             this.password = _data["password"];
+            this.address = _data["address"];
+            this.qualification = _data["qualification"];
+            this.contactNumber = _data["contactNumber"];
+            this.departmentId = _data["departmentId"];
         }
     }
 
@@ -4587,6 +4611,10 @@ export class CreateUserDto implements ICreateUserDto {
                 data["roleNames"].push(item);
         }
         data["password"] = this.password;
+        data["address"] = this.address;
+        data["qualification"] = this.qualification;
+        data["contactNumber"] = this.contactNumber;
+        data["departmentId"] = this.departmentId;
         return data; 
     }
 
@@ -4606,6 +4634,10 @@ export interface ICreateUserDto {
     isActive: boolean;
     roleNames: string[] | undefined;
     password: string;
+    address: string | undefined;
+    qualification: string | undefined;
+    contactNumber: string;
+    departmentId: number;
 }
 
 export class UserDto implements IUserDto {
@@ -4618,6 +4650,10 @@ export class UserDto implements IUserDto {
     lastLoginTime: moment.Moment | undefined;
     creationTime: moment.Moment;
     roleNames: string[] | undefined;
+    address: string | undefined;
+    qualification: string | undefined;
+    contactNumber: string;
+    departmentId: number;
     id: number;
 
     constructor(data?: IUserDto) {
@@ -4644,6 +4680,10 @@ export class UserDto implements IUserDto {
                 for (let item of _data["roleNames"])
                     this.roleNames.push(item);
             }
+            this.address = _data["address"];
+            this.qualification = _data["qualification"];
+            this.contactNumber = _data["contactNumber"];
+            this.departmentId = _data["departmentId"];
             this.id = _data["id"];
         }
     }
@@ -4670,6 +4710,10 @@ export class UserDto implements IUserDto {
             for (let item of this.roleNames)
                 data["roleNames"].push(item);
         }
+        data["address"] = this.address;
+        data["qualification"] = this.qualification;
+        data["contactNumber"] = this.contactNumber;
+        data["departmentId"] = this.departmentId;
         data["id"] = this.id;
         return data; 
     }
@@ -4692,6 +4736,10 @@ export interface IUserDto {
     lastLoginTime: moment.Moment | undefined;
     creationTime: moment.Moment;
     roleNames: string[] | undefined;
+    address: string | undefined;
+    qualification: string | undefined;
+    contactNumber: string;
+    departmentId: number;
     id: number;
 }
 
